@@ -7,6 +7,7 @@ import com.eduardocodigo0.noteswithcompose.data.local.toModel
 import com.eduardocodigo0.noteswithcompose.model.NoteModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 
 class NoteRepositoryImpl( private val notesDao: NoteTableDao ): NoteRepository {
 
@@ -22,6 +23,7 @@ class NoteRepositoryImpl( private val notesDao: NoteTableDao ): NoteRepository {
         return try {
             notesDao.getOneNote(noteId).toModel()
         } catch (e: Exception) {
+            Timber.tag("$TAG").e("$e")
             null
         }
     }
@@ -33,6 +35,7 @@ class NoteRepositoryImpl( private val notesDao: NoteTableDao ): NoteRepository {
             )
             true
         }catch (e: Exception){
+            Timber.tag("$TAG").e("$e")
             false
         }
     }
@@ -44,7 +47,12 @@ class NoteRepositoryImpl( private val notesDao: NoteTableDao ): NoteRepository {
             )
             true
         }catch (e: Exception){
+            Timber.tag("$TAG").e("$e")
             false
         }
+    }
+
+    companion object{
+        val TAG = NoteRepositoryImpl::class.simpleName
     }
 }
